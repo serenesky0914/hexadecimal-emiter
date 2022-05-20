@@ -1,0 +1,12 @@
+.content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    min-height: 600px;
+    font-size: 30px;
+}
+.btn-gen{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
