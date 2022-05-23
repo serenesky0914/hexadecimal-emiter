@@ -1,19 +1,41 @@
+let max_combinations = 2562890625;
+let duplicates = [];
 let illegal = [];
 let dict = {}
 
 function genHexadecimal() {
-    const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+    // new 8 digit Hexadecimal generate
+    const result = genRanHex(8);
 
-    if (validate(genRanHex(8))) {
-        console.log('Your generated code is: ' + genRanHex(8));
-        document.getElementById('gen_hex_txt').innerHTML = genRanHex(8);
-    } else {
-
+    // Check to see if we have created every possible code. If we have, clear the duplicates array to allow duplicates to be made.
+    if (duplicates.length === max_combinations) {
+        duplicates = [];
     }
 
+    // Checks to see if the generated code is either a duplicate or illegal. 
+    // If it is not, displays the code and adds it to the duplicate array. Also updates the colors of the site.
+    // If it is, runs the function again to generate a new code.
+    if (duplicates.indexOf(result) === -1 && validate(result)) {
+        duplicates.push(result);
+        console.log('Generated code is: ' + result);
+        document.getElementById('gen_hex_txt').innerText = result;
+        // change bg color using hex data
+        document.body.style.backgroundColor = '#' + result;
+        document.getElementById('gen_hex_txt').style.backgroundColor = '#' + result;
+    } else {
+        return genHexadecimal();
+    }
+
+    // Logs the duplicate and illegal code array for tracking.
+    console.log('Accumulated codes lists: ' + duplicates);
+    console.log('Accumulated illegal codes: ' + illegal);
+    console.log('--------->');
 };
 
-// Helper function to check if a hex code is valid or if it contains illegal words or patterns.
+// generate random 8 digit Hexadecimal
+const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+
+// validation checking if genrated hex code is valid or if it contains illegal words or patterns.
 validate = (hex_code) => {
     let valid = false;
     // Check to see if the hex code has already been encountered and deemed as illegal.
